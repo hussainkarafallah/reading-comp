@@ -27,6 +27,7 @@ def get_device(gpu_id):
         print("device is cuda, # cuda is: ", n_gpu)
     else:
         print("device is cpu, not recommend")
+    return "cpu" , 0
     return device, n_gpu
 
 
