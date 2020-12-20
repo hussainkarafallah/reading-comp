@@ -74,6 +74,9 @@ class GAReader(nn.Module):
         question, question_lengths = batch.question
         # question: [question_len, batch_size], question_lengths: [batch_size]
 
+        question_lengths = question_lengths.cpu()
+        article_lengths = article_lengths.cpu()
+
         option0, option0_lengths = batch.option_0
         option1, option1_lengths = batch.option_1
         option2, option2_lengths = batch.option_2
