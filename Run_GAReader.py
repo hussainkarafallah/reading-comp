@@ -19,6 +19,10 @@ from torchtext import vocab
 from Baselines.Utils.utils import word_tokenize, get_device, epoch_time, classifiction_metric
 from Baselines.Utils.arc_embedding_utils import load_data
 
+# Prepare the device
+gpu_ids = [int(device_id) for device_id in config.gpu_ids.split()]
+device, n_gpu = get_device(gpu_ids[0])
+
 
 def train(epoch_num, model, train_dataloader, dev_dataloader, optimizer, criterion, label_list, out_model_file, log_dir,
           print_step, clip):
@@ -44,6 +48,7 @@ def train(epoch_num, model, train_dataloader, dev_dataloader, optimizer, criteri
 
             optimizer.zero_grad()
 
+            batch = batch.to(device)
             logits = model(batch)
 
             loss = criterion(logits.view(-1, len(label_list)), batch.label)
@@ -142,9 +147,7 @@ def main(config, model_filename):
     model_file = os.path.join(
         config.output_dir, model_filename)
 
-    # Prepare the device
-    gpu_ids = [int(device_id) for device_id in config.gpu_ids.split()]
-    device, n_gpu = get_device(gpu_ids[0])
+
     if n_gpu > 1:
         n_gpu = len(gpu_ids)
 
