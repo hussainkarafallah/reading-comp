@@ -179,8 +179,8 @@ def main(config, model_filename):
         print(model)
 
     opt_params = [par for par in model.parameters() if par.is_leaf]
-    # optimizer = optim.Adam(model.parameters(), lr=config.lr)
-    optimizer = optim.SGD(opt_params, lr=config.lr)
+    optimizer = optim.Adam(model.parameters(), lr=config.lr)
+    #optimizer = optim.SGD(opt_params, lr=config.lr)
     criterion = nn.CrossEntropyLoss()
 
     model = model.to(device)
